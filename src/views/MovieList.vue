@@ -8,7 +8,9 @@
         <div v-for="movie in movies" :key="movie.id">
           <router-link
             :to="{ name: 'MovieDetails', params: { id: movie.id, type } }"
-            >{{ movie.title }}</router-link
+          >
+            {{ movie.title }}
+            ({{ movie.vote_average | stars }})</router-link
           >
         </div>
       </div>
@@ -45,6 +47,11 @@ export default {
     type: {
       type: String,
       required: true,
+    },
+  },
+  filters: {
+    stars(value) {
+      return "".padEnd(value / 2, "★").padEnd(5, "☆");
     },
   },
   methods: {
