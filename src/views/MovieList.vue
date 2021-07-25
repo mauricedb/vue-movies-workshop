@@ -4,14 +4,14 @@
     <div>
       <div v-if="error">{{ error }}</div>
       <div v-else-if="loading">Loading...</div>
-      <main v-else>
+      <div v-else>
         <div v-for="movie in movies" :key="movie.id">
           <router-link
             :to="{ name: 'MovieDetails', params: { id: movie.id, type } }"
             >{{ movie.title }}</router-link
           >
         </div>
-      </main>
+      </div>
     </div>
   </div>
 </template>

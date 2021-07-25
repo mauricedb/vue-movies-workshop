@@ -7,7 +7,9 @@
       <router-link to="/about">About</router-link>
     </nav>
 
-    <router-view />
+    <main id="main">
+      <router-view />
+    </main>
   </div>
 </template>
 
@@ -31,5 +33,10 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+#main {
+  width: 600px;
+  margin: 0 auto;
 }
 </style>

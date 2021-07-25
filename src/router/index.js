@@ -6,8 +6,6 @@ import MovieDetails from "../views/MovieDetails.vue";
 
 Vue.use(VueRouter);
 
-const apiOrigin = "https://the-problem-solver-sample-data.azurewebsites.net";
-
 const routes = [
   {
     path: "/",
@@ -19,7 +17,7 @@ const routes = [
     name: "TopRatedMovies",
     component: MovieList,
     props: {
-      moviesUrl: `${apiOrigin}/top-rated-movies`,
+      moviesUrl: `${process.env.VUE_APP_API_ORIGIN}/top-rated-movies`,
       title: "Top Rated Movies",
       type: "top-rated",
     },
@@ -29,7 +27,7 @@ const routes = [
     name: "PopularMovies",
     component: MovieList,
     props: {
-      moviesUrl: `${apiOrigin}/popular-movies`,
+      moviesUrl: `${process.env.VUE_APP_API_ORIGIN}/popular-movies`,
       title: "Popular Movies",
       type: "popular",
     },

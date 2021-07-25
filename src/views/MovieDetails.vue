@@ -2,13 +2,7 @@
   <div>
     <div v-if="error">{{ error }}</div>
     <div v-else-if="loading">Loading...</div>
-    <form
-      v-else
-      @submit.prevent="submitForm"
-      @reset="resetForm"
-      class="form"
-      novalidate
-    >
+    <form v-else @submit.prevent="submitForm" @reset="resetForm" novalidate>
       <fieldset class="fieldset" :disabled="saving">
         <div>
           <label>
@@ -54,8 +48,6 @@
 </template>
 
 <script>
-const apiOrigin = "https://the-problem-solver-sample-data.azurewebsites.net";
-
 export default {
   props: {
     id: { type: [Number, String], required: true },
@@ -82,7 +74,7 @@ export default {
   },
   computed: {
     movieUrl() {
-      return `${apiOrigin}/${
+      return `${process.env.VUE_APP_API_ORIGIN}/${
         this.type === "popular" ? "popular-movies" : "top-rated-movies"
       }/${this.id}`;
     },
@@ -142,11 +134,6 @@ export default {
 </script>
 
 <style scoped>
-.form {
-  width: 600px;
-  margin: 0 auto;
-}
-
 .input-label {
   display: inline-block;
   margin-top: 1em;
