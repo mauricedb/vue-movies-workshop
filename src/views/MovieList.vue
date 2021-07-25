@@ -10,8 +10,10 @@
             :to="{ name: 'MovieDetails', params: { id: movie.id, type } }"
           >
             {{ movie.title }}
-            ({{ movie.vote_average | stars }})</router-link
-          >
+            <span :title="movie.vote_average">
+              ({{ movie.vote_average | stars }})
+            </span>
+          </router-link>
         </div>
       </div>
     </div>
