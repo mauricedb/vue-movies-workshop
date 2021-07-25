@@ -65,18 +65,16 @@ export default {
     this.fetchMovie();
   },
   watch: {
-    id() {
-      this.fetchMovie();
-    },
-    type() {
+    movieUrl() {
       this.fetchMovie();
     },
   },
   computed: {
     movieUrl() {
-      return `${process.env.VUE_APP_API_ORIGIN}/${
-        this.type === "popular" ? "popular-movies" : "top-rated-movies"
-      }/${this.id}`;
+      return `${process.env.VUE_APP_API_ORIGIN}/${this.uriTypeFragment}/${this.id}`;
+    },
+    uriTypeFragment() {
+      return this.type === "popular" ? "popular-movies" : "top-rated-movies";
     },
   },
   methods: {
@@ -121,9 +119,7 @@ export default {
     async submitForm() {
       await this.saveMovie();
       if (!this.error) {
-        this.$router.push(
-          `/${this.type === "popular" ? "popular-movies" : "top-rated-movies"}`
-        );
+        this.$router.push(`/${this.uriTypeFragment}`);
       }
     },
     resetForm() {
