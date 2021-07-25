@@ -1,14 +1,44 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import MovieList from "../views/MovieList.vue";
+import MovieDetails from "../views/MovieDetails.vue";
 
 Vue.use(VueRouter);
+
+const apiOrigin = "https://the-problem-solver-sample-data.azurewebsites.net";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/top-rated-movies",
+    name: "TopRatedMovies",
+    component: MovieList,
+    props: {
+      moviesUrl: `${apiOrigin}/top-rated-movies`,
+      title: "Top Rated Movies",
+      type: "top-rated",
+    },
+  },
+  {
+    path: "/popular-movies",
+    name: "PopularMovies",
+    component: MovieList,
+    props: {
+      moviesUrl: `${apiOrigin}/popular-movies`,
+      title: "Popular Movies",
+      type: "popular",
+    },
+  },
+  {
+    path: "/movie-details/:type/:id",
+    name: "MovieDetails",
+    component: MovieDetails,
+    props: true,
   },
   {
     path: "/about",
