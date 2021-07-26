@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { ref, onMounted, watch, computed } from "vue";
+import { useRouter } from "vue-router";
 import LabeledInput from "./LabeledInput.vue";
 
 export default {
@@ -41,78 +43,85 @@ export default {
     id: { type: [Number, String], required: true },
     type: { type: String, required: true },
   },
-  data() {
-    return {
-      error: null,
-      saving: false,
-      loading: true,
-      movie: null,
-    };
-  },
-  mounted() {
-    this.fetchMovie();
-  },
-  watch: {
-    movieUrl() {
-      this.fetchMovie();
-    },
-  },
-  computed: {
-    movieUrl() {
-      return `${process.env.VUE_APP_API_ORIGIN}/${this.uriTypeFragment}/${this.id}`;
-    },
-    uriTypeFragment() {
-      return this.type === "popular" ? "popular-movies" : "top-rated-movies";
-    },
-  },
-  methods: {
-    async fetchMovie() {
+  setup(props) {
+    const router = useRouter();
+
+    const error = ref(null);
+    const loading = ref(true);
+    const saving = ref(false);
+    const movie = ref(null);
+
+    const uriTypeFragment = computed(() =>
+      props.type === "popular" ? "popular-movies" : "top-rated-movies"
+    );
+
+    const movieUrl = computed(
+      () =>
+        `${process.env.VUE_APP_API_ORIGIN}/${uriTypeFragment.value}/${props.id}`
+    );
+
+    async function fetchMovie() {
       try {
-        this.loading = true;
-        const rsp = await fetch(this.movieUrl);
+        loading.value = true;
+        const rsp = await fetch(movieUrl.value);
 
         if (rsp.ok) {
-          this.movie = await rsp.json();
+          movie.value = await rsp.json();
         } else {
-          this.error = rsp.statusText ?? "Failed to load data";
+          error.value = rsp.statusText ?? "Failed to load data";
         }
       } catch (error) {
-        this.error = error?.message ?? "Failed to load data";
+        error.value = error?.message ?? "Failed to load data";
       } finally {
-        this.loading = false;
+        loading.value = false;
       }
-    },
-    async saveMovie() {
+    }
+
+    onMounted(() => fetchMovie());
+
+    watch(movieUrl, () => fetchMovie());
+
+    async function saveMovie() {
       try {
-        this.saving = true;
-        const rsp = await fetch(this.movieUrl, {
+        saving.value = true;
+        const rsp = await fetch(movieUrl.value, {
           method: "put",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(this.movie),
+          body: JSON.stringify(movie.value),
         });
 
         if (rsp.ok) {
-          this.movie = await rsp.json();
+          movie.value = await rsp.json();
         } else {
-          this.error = rsp.statusText ?? "Failed to save data";
+          error.value = rsp.statusText ?? "Failed to save data";
         }
       } catch (error) {
-        this.error = error?.message ?? "Failed to save data";
+        error.value = error?.message ?? "Failed to save data";
       } finally {
-        this.saving = false;
+        saving.value = false;
       }
-    },
-    async submitForm() {
-      await this.saveMovie();
-      if (!this.error) {
-        this.$router.push(`/${this.uriTypeFragment}`);
+    }
+
+    async function submitForm() {
+      await saveMovie();
+      if (!error.value) {
+        router.push(`/${uriTypeFragment.value}`);
       }
-    },
-    resetForm() {
-      this.fetchMovie();
-    },
+    }
+    function resetForm() {
+      fetchMovie();
+    }
+
+    return {
+      error,
+      loading,
+      saving,
+      movie,
+      submitForm,
+      resetForm,
+    };
   },
 };
 </script>
