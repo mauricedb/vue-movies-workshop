@@ -4,38 +4,23 @@
     <div v-else-if="loading">Loading...</div>
     <form v-else @submit.prevent="submitForm" @reset="resetForm" novalidate>
       <fieldset class="fieldset" :disabled="saving">
-        <div>
-          <label>
-            <span class="input-label">Title</span>
-            <input v-model="movie.title" class="form-control" />
-          </label>
-        </div>
+        <LabeledInput label="Title" v-model="movie.title" />
         <div>
           <label>
             <span class="input-label">Overview</span>
             <textarea v-model="movie.overview" rows="5" class="form-control" />
           </label>
         </div>
-        <div>
-          <label>
-            <span class="input-label">Vote average</span>
-            <input
-              v-model.number="movie.vote_average"
-              type="number"
-              class="form-control"
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <span class="input-label">Release date</span>
-            <input
-              v-model="movie.release_date"
-              type="date"
-              class="form-control"
-            />
-          </label>
-        </div>
+        <LabeledInput
+          label="Vote average"
+          v-model.number="movie.vote_average"
+          type="number"
+        />
+        <LabeledInput
+          label="Release date"
+          v-model="movie.release_date"
+          type="date"
+        />
 
         <div class="button-row">
           <button type="submit">Save</button>
@@ -48,7 +33,10 @@
 </template>
 
 <script>
+import LabeledInput from "./LabeledInput.vue";
+
 export default {
+  components: { LabeledInput },
   props: {
     id: { type: [Number, String], required: true },
     type: { type: String, required: true },
