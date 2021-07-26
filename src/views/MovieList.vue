@@ -5,23 +5,24 @@
       <div v-if="error">{{ error }}</div>
       <div v-else-if="loading">Loading...</div>
       <div v-else>
-        <div v-for="movie in movies" :key="movie.id">
-          <router-link
-            :to="{ name: 'MovieDetails', params: { id: movie.id, type } }"
-          >
-            {{ movie.title }}
-            <span :title="movie.vote_average">
-              ({{ movie.vote_average | stars }})
-            </span>
-          </router-link>
-        </div>
+        <MovieCard
+          v-for="movie in movies"
+          :key="movie.id"
+          :movie="movie"
+          :type="type"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import MovieCard from "./MovieCard.vue";
+
 export default {
+  components: {
+    MovieCard,
+  },
   data() {
     return {
       error: null,
@@ -49,11 +50,6 @@ export default {
     type: {
       type: String,
       required: true,
-    },
-  },
-  filters: {
-    stars(value) {
-      return "".padEnd(value / 2, "★").padEnd(5, "☆");
     },
   },
   methods: {
