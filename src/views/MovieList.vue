@@ -17,26 +17,12 @@
 </template>
 
 <script>
+import { ref, onMounted, watch } from "vue";
 import MovieCard from "./MovieCard.vue";
 
 export default {
   components: {
     MovieCard,
-  },
-  data() {
-    return {
-      error: null,
-      loading: true,
-      movies: [],
-    };
-  },
-  mounted() {
-    this.fetchMovies();
-  },
-  watch: {
-    moviesUrl() {
-      this.fetchMovies();
-    },
   },
   props: {
     moviesUrl: {
@@ -52,22 +38,39 @@ export default {
       required: true,
     },
   },
-  methods: {
-    async fetchMovies() {
+  setup(props) {
+    const error = ref(null);
+    const loading = ref(true);
+    const movies = ref([]);
+
+    async function fetchMovies() {
       try {
-        const rsp = await fetch(this.moviesUrl);
+        const rsp = await fetch(props.moviesUrl);
 
         if (rsp.ok) {
-          this.movies = await rsp.json();
+          movies.value = await rsp.json();
         } else {
-          this.error = rsp.statusText ?? "Failed to load data";
+          error.value = rsp.statusText ?? "Failed to load data";
         }
       } catch (error) {
-        this.error = error?.message ?? "Failed to load data";
+        error.value = error?.message ?? "Failed to load data";
       } finally {
-        this.loading = false;
+        loading.value = false;
       }
-    },
+    }
+
+    onMounted(() => fetchMovies());
+
+    watch(
+      () => props.moviesUrl,
+      () => fetchMovies()
+    );
+
+    return {
+      error,
+      loading,
+      movies,
+    };
   },
 };
 </script>
