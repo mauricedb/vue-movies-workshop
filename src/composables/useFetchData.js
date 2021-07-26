@@ -1,4 +1,4 @@
-import { ref, onMounted, watch } from "vue";
+import { ref, watchEffect } from "vue";
 
 export default function useFetchData(url) {
   const error = ref(null);
@@ -21,9 +21,7 @@ export default function useFetchData(url) {
     }
   }
 
-  onMounted(() => fetchData());
-
-  watch(url, () => fetchData());
+  watchEffect(() => fetchData());
 
   return { error, loading, data, fetchData };
 }
