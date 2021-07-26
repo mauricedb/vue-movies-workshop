@@ -33,8 +33,10 @@
 </template>
 
 <script>
-import { ref, onMounted, watch, computed } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import useFetchData from "../composables/useFetchData";
+
 import LabeledInput from "./LabeledInput.vue";
 
 export default {
@@ -46,10 +48,7 @@ export default {
   setup(props) {
     const router = useRouter();
 
-    const error = ref(null);
-    const loading = ref(true);
     const saving = ref(false);
-    const movie = ref(null);
 
     const uriTypeFragment = computed(() =>
       props.type === "popular" ? "popular-movies" : "top-rated-movies"
@@ -60,26 +59,12 @@ export default {
         `${process.env.VUE_APP_API_ORIGIN}/${uriTypeFragment.value}/${props.id}`
     );
 
-    async function fetchMovie() {
-      try {
-        loading.value = true;
-        const rsp = await fetch(movieUrl.value);
-
-        if (rsp.ok) {
-          movie.value = await rsp.json();
-        } else {
-          error.value = rsp.statusText ?? "Failed to load data";
-        }
-      } catch (error) {
-        error.value = error?.message ?? "Failed to load data";
-      } finally {
-        loading.value = false;
-      }
-    }
-
-    onMounted(() => fetchMovie());
-
-    watch(movieUrl, () => fetchMovie());
+    const {
+      error,
+      loading,
+      data: movie,
+      fetchData: fetchMovie,
+    } = useFetchData(movieUrl);
 
     async function saveMovie() {
       try {

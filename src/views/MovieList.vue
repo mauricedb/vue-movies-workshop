@@ -17,8 +17,9 @@
 </template>
 
 <script>
-import { ref, onMounted, watch } from "vue";
 import MovieCard from "./MovieCard.vue";
+import useFetchData from "../composables/useFetchData";
+import { toRefs } from "@vue/reactivity";
 
 export default {
   components: {
@@ -39,32 +40,8 @@ export default {
     },
   },
   setup(props) {
-    const error = ref(null);
-    const loading = ref(true);
-    const movies = ref([]);
-
-    async function fetchMovies() {
-      try {
-        const rsp = await fetch(props.moviesUrl);
-
-        if (rsp.ok) {
-          movies.value = await rsp.json();
-        } else {
-          error.value = rsp.statusText ?? "Failed to load data";
-        }
-      } catch (error) {
-        error.value = error?.message ?? "Failed to load data";
-      } finally {
-        loading.value = false;
-      }
-    }
-
-    onMounted(() => fetchMovies());
-
-    watch(
-      () => props.moviesUrl,
-      () => fetchMovies()
-    );
+    const url = toRefs(props).moviesUrl;
+    const { error, loading, data: movies } = useFetchData(url);
 
     return {
       error,
