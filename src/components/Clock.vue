@@ -1,9 +1,9 @@
 <template>
-  <span>{{ now.toLocaleTimeString() }}</span>
+  <span>{{ time }}</span>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 export default {
   setup() {
@@ -13,8 +13,11 @@ export default {
       now.value = new Date();
     }, 1000);
 
+    const time = computed(() => now.value.toLocaleTimeString());
+
     return {
       now,
+      time,
     };
   },
 };
