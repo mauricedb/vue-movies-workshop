@@ -4,10 +4,15 @@
     <div v-else-if="loading">Loading...</div>
     <form v-else @submit.prevent="submitForm" @reset="resetForm" novalidate>
       <fieldset class="fieldset" :disabled="saving">
-        <LabeledInput label="Title" v-model="movie.title" />
+        <LabeledInput v-model="movie.title">
+          <b>Title</b>
+          <template v-slot:below v-if="!movie.title">
+            <div class="warning">The movie title is required</div>
+          </template>
+        </LabeledInput>
         <div>
           <label>
-            <span class="input-label">Overview</span>
+            <span class="input-label"><b>Overview</b></span>
             <textarea v-model="movie.overview" rows="5" class="form-control" />
           </label>
         </div>
@@ -128,5 +133,8 @@ export default {
 
 .fieldset {
   border: none;
+}
+.warning {
+  color: orange;
 }
 </style>

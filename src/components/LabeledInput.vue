@@ -1,6 +1,9 @@
 <template>
   <div>
-    <label class="input-label" :for="$attrs.id">{{ label }}</label>
+    <label class="input-label" :for="$attrs.id">
+      {{ label }}
+      <slot />
+    </label>
     <input
       type="text"
       class="form-control"
@@ -8,6 +11,7 @@
       @input="$emit('update:modelValue', $event.target.value)"
       v-bind="$attrs"
     />
+    <slot name="below" />
   </div>
 </template>
 
