@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import MovieCard from "./MovieCard.vue";
+import MovieCard from "../components/MovieCard.vue";
 import useFetchData from "../composables/useFetchData";
 import { toRefs } from "@vue/reactivity";
 

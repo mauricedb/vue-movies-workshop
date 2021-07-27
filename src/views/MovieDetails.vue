@@ -37,7 +37,7 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import useFetchData from "../composables/useFetchData";
 
-import LabeledInput from "./LabeledInput.vue";
+import LabeledInput from "../components/LabeledInput.vue";
 
 export default {
   components: { LabeledInput },
