@@ -3,24 +3,15 @@
 </template>
 
 <script>
-import { ref, computed, onUnmounted } from "vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   setup() {
-    const now = ref(new Date());
-
-    const handle = setInterval(() => {
-      now.value = new Date();
-    }, 1000);
-
-    onUnmounted(() => {
-      clearInterval(handle);
-    });
-
-    const time = computed(() => now.value.toLocaleTimeString());
+    const store = useStore();
+    const time = computed(() => store.state.now.toLocaleTimeString());
 
     return {
-      now,
       time,
     };
   },
