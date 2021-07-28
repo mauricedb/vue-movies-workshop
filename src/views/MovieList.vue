@@ -17,8 +17,9 @@
 </template>
 
 <script>
+import { computed, watchEffect } from "vue";
+import { useStore } from "vuex";
 import MovieCard from "../components/MovieCard.vue";
-import useFetchData from "../composables/useFetchData";
 import { toRefs } from "@vue/reactivity";
 
 export default {
@@ -40,8 +41,16 @@ export default {
     },
   },
   setup(props) {
+    const store = useStore();
     const url = toRefs(props).moviesUrl;
-    const { error, loading, data: movies } = useFetchData(url);
+    const key = toRefs(props).type;
+    watchEffect(() => {
+      store.dispatch("fetchData", { url: url.value, key: key.value });
+    });
+
+    const movies = computed(() => store.state[key.value]);
+    const error = computed(() => store.state[`${key.value}Error`]);
+    const loading = computed(() => store.state[`${key.value}Loading`]);
 
     return {
       error,
