@@ -34,6 +34,11 @@ const routes = [
     name: "MovieDetails",
     component: MovieDetails,
     props: true,
+    beforeEnter(to, from) {
+      const movieId = +to.params.id;
+      // Only navigate to movies with an even ID
+      // return movieId % 2 === 0;
+    },
   },
   {
     path: "/about",
