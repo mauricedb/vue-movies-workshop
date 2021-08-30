@@ -1,17 +1,32 @@
 <template>
-  <div id="app">
-    <nav id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/top-rated-movies">Top Rated Movies</router-link> |
-      <router-link to="/popular-movies">Popular Movies</router-link> |
-      <router-link to="/about">About</router-link> |
-      <Clock />
-    </nav>
+  <v-app>
+    <v-app-bar>
+      <v-app-bar-title>Movies</v-app-bar-title>
+      <router-link to="/">
+        <v-btn text>Home</v-btn>
+      </router-link>
+      <router-link to="/top-rated-movies">
+        <v-btn text>Top Rated Movies</v-btn>
+      </router-link>
+      <router-link to="/popular-movies">
+        <v-btn text>Popular Movies</v-btn>
+      </router-link>
+      <router-link to="/about">
+        <v-btn text>About</v-btn>
+      </router-link>
+      <v-spacer></v-spacer>
+      <v-btn text>
+        <Clock />
+      </v-btn>
+    </v-app-bar>
+    <nav id="nav"></nav>
 
-    <main id="main">
-      <router-view />
-    </main>
-  </div>
+    <v-main id="main">
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
@@ -23,19 +38,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#nav {
-  padding: 30px;
-  text-align: center;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
