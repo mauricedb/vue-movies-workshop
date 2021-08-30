@@ -1,17 +1,17 @@
 <template>
   <div>
-    <h2>{{ title }}</h2>
+    <h2 class="text-center">{{ title }}</h2>
     <div>
       <div v-if="error">{{ error }}</div>
       <div v-else-if="loading">Loading...</div>
-      <div v-else>
+      <v-row v-else>
         <MovieCard
           v-for="movie in movies"
           :key="movie.id"
           :movie="movie"
           :type="type"
         />
-      </div>
+      </v-row>
     </div>
   </div>
 </template>
