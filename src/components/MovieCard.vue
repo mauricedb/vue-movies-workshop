@@ -4,7 +4,12 @@
       <v-img :src="imageUrl" height="281" width="500" />
       <v-card-title>
         {{ movie.title }}
-        <span :title="movie.vote_average"> ({{ voteAsStars }}) </span>
+        <v-rating
+          :model-value="movie.vote_average / 2"
+          :title="movie.vote_average"
+          readonly
+          size="x-small"
+        />
       </v-card-title>
     </router-link>
   </v-card>
@@ -17,9 +22,6 @@ export default {
     type: String,
   },
   computed: {
-    voteAsStars() {
-      return "".padEnd(this.movie.vote_average / 2, "★").padEnd(5, "☆");
-    },
     imageUrl() {
       return "https://image.tmdb.org/t/p/w500" + this.movie.backdrop_path;
     },
