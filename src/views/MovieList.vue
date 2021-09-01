@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { computed, watchEffect } from "vue";
 import { useStore } from "vuex";
 import MovieCard from "../components/MovieCard.vue";

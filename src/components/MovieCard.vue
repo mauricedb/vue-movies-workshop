@@ -15,7 +15,7 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   props: {
     movie: Object,

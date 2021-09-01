@@ -37,7 +37,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import useFetchData from "../composables/useFetchData";

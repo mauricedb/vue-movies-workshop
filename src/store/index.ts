@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 
-interface Store {
+export interface Store {
   now: Date;
   [key: string]: any;
 }
