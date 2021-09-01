@@ -1,4 +1,8 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  RouteLocationNormalized,
+} from "vue-router";
 import Home from "../views/Home.vue";
 import MovieList from "../views/MovieList.vue";
 import MovieDetails from "../views/MovieDetails.vue";
@@ -34,7 +38,7 @@ const routes = [
     name: "MovieDetails",
     component: MovieDetails,
     props: true,
-    beforeEnter(to, from) {
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized) {
       const movieId = +to.params.id;
       // Only navigate to movies with an even ID
       // return movieId % 2 === 0;

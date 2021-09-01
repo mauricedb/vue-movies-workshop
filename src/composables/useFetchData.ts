@@ -1,7 +1,7 @@
-import { ref, watchEffect } from "vue";
+import { ComputedRef, ref, watchEffect } from "vue";
 
-export default function useFetchData(url) {
-  const error = ref(null);
+export default function useFetchData(url: ComputedRef<string>) {
+  const error = ref<string | null>(null);
   const loading = ref(true);
   const data = ref(null);
 

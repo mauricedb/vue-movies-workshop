@@ -1,8 +1,14 @@
 import { createStore } from "vuex";
 
-const store = createStore({
+interface Store {
+  now: Date;
+  [key: string]: any;
+}
+
+const store = createStore<Store>({
   state: {
     now: new Date(),
+    dataLoading: null,
   },
   mutations: {
     tick(state) {
