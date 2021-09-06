@@ -40,7 +40,7 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  setup(props: any) {
     const store = useStore();
     const url = toRefs(props).moviesUrl;
     const key = toRefs(props).type;

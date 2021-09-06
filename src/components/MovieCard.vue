@@ -16,13 +16,15 @@
 </template>
 
 <script lang="ts">
+import { Movie } from "../types/movie";
+
 export default {
   props: {
     movie: Object,
     type: String,
   },
   computed: {
-    imageUrl() {
+    imageUrl(this: { movie: Movie }) {
       return "https://image.tmdb.org/t/p/w500" + this.movie.backdrop_path;
     },
   },

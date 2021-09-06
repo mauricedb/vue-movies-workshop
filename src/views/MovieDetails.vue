@@ -50,7 +50,7 @@ export default {
     id: { type: [Number, String], required: true },
     type: { type: String, required: true },
   },
-  setup(props) {
+  setup(props: any) {
     const router = useRouter();
 
     const saving = ref(false);
