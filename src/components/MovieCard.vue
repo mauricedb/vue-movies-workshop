@@ -2,9 +2,7 @@
   <div>
     <router-link :to="{ name: 'MovieDetails', params: { id: movie.id, type } }">
       {{ movie.title }}
-      <span :title="movie.vote_average">
-        ({{ movie.vote_average | stars }})
-      </span>
+      <span :title="movie.vote_average"> ({{ ratingAsStars }}) </span>
     </router-link>
   </div>
 </template>
@@ -15,9 +13,9 @@ export default {
     movie: Object,
     type: String,
   },
-  filters: {
-    stars(value) {
-      return "".padEnd(value / 2, "★").padEnd(5, "☆");
+  computed: {
+    ratingAsStars() {
+      return "".padEnd(this.movie.vote_average / 2, "★").padEnd(5, "☆");
     },
   },
 };
