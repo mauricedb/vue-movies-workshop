@@ -62,8 +62,8 @@ export default {
         } else {
           this.error = rsp.statusText ?? "Failed to load data";
         }
-      } catch (error) {
-        this.error = error?.message ?? "Failed to load data";
+      } catch (err) {
+        this.error = err?.message ?? "Failed to load data";
       } finally {
         this.loading = false;
       }
