@@ -17,26 +17,43 @@
 </template>
 
 <script>
+import { onMounted, ref, watch, watchEffect } from "vue";
 import MovieCard from "../components/MovieCard.vue";
 
 export default {
   components: {
     MovieCard,
   },
-  data() {
+  setup(props) {
+    const error = ref(null);
+    const loading = ref(true);
+    const movies = ref([]);
+
+    async function fetchMovies() {
+      try {
+        const rsp = await fetch(props.moviesUrl);
+
+        if (rsp.ok) {
+          movies.value = await rsp.json();
+        } else {
+          error.value = rsp.statusText ?? "Failed to load data";
+        }
+      } catch (err) {
+        error.value = err?.message ?? "Failed to load data";
+      } finally {
+        loading.value = false;
+      }
+    }
+
+    // onMounted(fetchMovies);
+    // watch(() => props.moviesUrl, fetchMovies);
+    watchEffect(fetchMovies);
+
     return {
-      error: null,
-      loading: true,
-      movies: [],
+      error,
+      loading,
+      movies,
     };
-  },
-  mounted() {
-    this.fetchMovies();
-  },
-  watch: {
-    moviesUrl() {
-      this.fetchMovies();
-    },
   },
   props: {
     moviesUrl: {
@@ -50,23 +67,6 @@ export default {
     type: {
       type: String,
       required: true,
-    },
-  },
-  methods: {
-    async fetchMovies() {
-      try {
-        const rsp = await fetch(this.moviesUrl);
-
-        if (rsp.ok) {
-          this.movies = await rsp.json();
-        } else {
-          this.error = rsp.statusText ?? "Failed to load data";
-        }
-      } catch (err) {
-        this.error = err?.message ?? "Failed to load data";
-      } finally {
-        this.loading = false;
-      }
     },
   },
 };
